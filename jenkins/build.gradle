@@ -1,0 +1,44 @@
+apply plugin: 'groovy'
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs 'jobs', 'src/main/groovy', 'seed'
+        }
+        resources {
+            srcDirs 'declarative-pipeline', 'src/main/resources'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'http://repo.jenkins-ci.org/releases/' }
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    compile 'org.jenkins-ci.plugins:job-dsl-core:1.58'
+    compile 'org.jenkins-ci.plugins:job-dsl:1.58@jar'
+
+    // for init.groovy
+    compile 'org.jenkins-ci.plugins:credentials:2.1.13@jar'
+    compile 'org.jenkins-ci.plugins:ssh-credentials:1.13@jar'
+    compile 'org.jenkins-ci.plugins:groovy:1.30@jar'
+    compile 'org.jenkins-ci.main:jenkins-core:2.19.1'
+    // for Intellij not to throw exceptions
+    compile 'javax.servlet:servlet-api:2.4'
+    
+    testCompile project(":common")
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude module: 'groovy-all'
+    }
+    testCompile 'xmlunit:xmlunit:1.6'
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}

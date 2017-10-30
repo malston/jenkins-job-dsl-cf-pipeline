@@ -1,0 +1,32 @@
+version: "2"
+services:
+  jenkins:
+    build:
+      context: .
+      args:
+        gituser: "${PIPELINE_GIT_USERNAME}"
+        gitpass: "${PIPELINE_GIT_PASSWORD}"
+        gitsshkey: "${PIPELINE_GIT_SSH_KEY}"
+        dockerRegistryOrg: "${DOCKER_REGISTRY_ORGANIZATION}"
+        dockerRegistryUser: "${DOCKER_REGISTRY_USERNAME}"
+        dockerRegistryPass: "${DOCKER_REGISTRY_PASSWORD}"
+        dockerRegistryEmail: "${DOCKER_REGISTRY_EMAIL}"
+    environment:
+      FORKED_ORG: "${FORKED_ORG}"
+      EXTERNAL_IP: "${EXTERNAL_IP}"
+    ports:
+      - "50000:50000"
+      - "8080:8080"
+    volumes:
+      # The /var/jenkins_* paths might not work for Docker machine...
+      - ~/jenkins_home:/var/jenkins_home
+      - ~/jenkins_root:/root/
+      - /var/run/docker.sock:/var/run/docker.sock
+    links:
+      - artifactory
+  artifactory:
+    build:
+      context: .
+      dockerfile: Dockerfile-artifactory
+    ports:
+      - "8081:8081"
