@@ -30,7 +30,7 @@ boolean rollbackStep = binding.variables["DB_ROLLBACK_STEP_REQUIRED"] == null ? 
 boolean stageStep = binding.variables["DEPLOY_TO_STAGE_STEP_REQUIRED"] == null ? true : Boolean.parseBoolean(binding.variables["DEPLOY_TO_STAGE_STEP_REQUIRED"])
 String scriptsDir = binding.variables["SCRIPTS_DIR"] ?: "${WORKSPACE}/common/src/main/bash"
 // TODO: Automate customization of this value
-String toolsRepo = binding.variables["TOOLS_REPOSITORY"] ?: "https://github.com/spring-cloud/spring-cloud-pipelines"
+String toolsRepo = binding.variables["TOOLS_REPOSITORY"] ?: "https://github.com/malston/jenkins-job-dsl-cf-pipeline"
 String toolsBranch = binding.variables["TOOLS_BRANCH"] ?: "master"
 
 
